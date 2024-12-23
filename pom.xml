@@ -37,8 +37,8 @@
     <distributionManagement>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>ip-172-31-20-143-snapshots</name>
-            <url>http://3.92.27.148:8081/artifactory/libs-snapshot</url>
+            <name>sample-webapp</name>
+            <url>http://54.221.99.80:8081/artifactory/libs-snapshot</url>
         </snapshotRepository>
     </distributionManagement>
 
