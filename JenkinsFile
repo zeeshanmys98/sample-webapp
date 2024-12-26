@@ -3,6 +3,7 @@
 pipeline {
     agent { label 'Slave' }
     def mvncommand = ${mvncommand}
+
     def DeploymentEnvironment = ${DeploymentEnvironment}
     stages {
         stage("Checkout Code") {
