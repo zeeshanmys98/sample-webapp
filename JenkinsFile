@@ -1,10 +1,8 @@
 @Library('jenkins-library') _//This is the Jenkins library Name
-
+def mvnCommand = env.mvncommand ?: 'install'
+def deployEnv = env.DeploymentEnvironment ?: 'staging'
 pipeline {
     agent { label 'Slave' }
-    def mvncommand = ${mvncommand}
-
-    def DeploymentEnvironment = ${DeploymentEnvironment}
     stages {
         stage("Checkout Code") {
             steps {
@@ -46,7 +44,7 @@ pipeline {
         stage("Deploy To Environment") {
             steps {
                     sh '''
-                    echo "I am Deploying this war or application to ${DeploymentEnvironment}"
+                    echo "I am Deploying this war or application to ${deployEnv}"
                     '''
 
             }
