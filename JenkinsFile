@@ -1,14 +1,18 @@
+@Library('jenkins-library') _//This is the Jenkins library Name
+
 pipeline {
     agent { label 'Slave' }
     stages {
         stage("Checkout Code") {
             steps {
+                echo "This is the Url from shared Library: ${constants.gitUrl}"
+                echo "This is the password from shared Library: ${constants.password}"
                 checkout([
                         $class: 'GitSCM',
                         branches: [[name: '*/main']],
                         userRemoteConfigs: [[
-                                                    url: 'https://github.com/devops5014/sample-webapp.git',
-                                                    credentialsId: 'github-pass'
+                                                    url: constants.gitUrl,
+                                                    credentialsId: constants.password
                                             ]]
                 ])
             }
