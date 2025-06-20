@@ -47,7 +47,7 @@
         <snapshotRepository>
             <id>snapshots</id>
             <name>sample-webapp</name>
-            <url>http://54.145.253.68:8081/artifactory/libs-snapshot</url>
+            <url>http://3.83.67.209:8081/artifactory/libs-snapshot</url>
         </snapshotRepository>
     </distributionManagement>
 
