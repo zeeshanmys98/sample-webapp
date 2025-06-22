@@ -7,7 +7,7 @@ pipeline{
                         $class: 'GitSCM',
                         branches:[[name: '*/main']],
                         userRemoteConfig:[[
-                                                  url: 'https://github.com/zeeshanmys98/sample-webapp.git', credentialId: 'shivakumar-88'
+                                                  url: 'https://github.com/zeeshanmys98/sample-webapp.git', credentialId: 'github_token'
                                           ]]
                 ])
             }
@@ -26,7 +26,7 @@ pipeline{
         }
         stage('Deploy To ArtiFactory') {
             steps {
-                configFileProvider([configFile(fileId: '2207c801-a174-43ae-a732-93c28a12a421' , variable: 'MAVEN_SETTINGS')]){
+                configFileProvider([configFile(fileId: '82f80c51-a4d1-4343-9df3-14fff9de520f' , variable: 'MAVEN_SETTINGS')]){
                     sh '''
                     mvn deploy -s $MAVEN_SETTINGS
                     '''
@@ -37,12 +37,12 @@ pipeline{
             steps {
                 sh '''
                 echo "copying to tomcat "
-                if curl -s -o /dev/null -w "%{http_code}" http://51.20.56.149:8080/ | grep -q "200"; then
+                if curl -s -o /dev/null -w "%{http_code}" http://16.171.3.1:8080/ | grep -q "200"; then
                 sudo /usr/tomcat/tomcat10/bin/shutdown.sh
-                cp /home/ubuntu/workspace/first-project/target/StudentManagementApp-1.1-SNAPSHOT.war /usr/tomcat/tomcat10/webapps
+                cp /home/ubuntu/workspace/first-project/target/StudentManagementApp-1.3-SNAPSHOT.war /usr/tomcat/tomcat10/webapps
                 sudo /usr/tomcat/tomcat10/bin/startup.sh
                 else
-                cp /home/ubuntu/workspace/first-project/target/StudentManagementApp-1.1-SNAPSHOT.war /usr/tomcat/tomcat10/webapps
+                cp /home/ubuntu/workspace/first-project/target/StudentManagementApp-1.3-SNAPSHOT.war /usr/tomcat/tomcat10/webapps
                 sudo /usr/tomcat/tomcat10/bin/startup.sh
                 fi
                 '''
