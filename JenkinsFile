@@ -4,10 +4,10 @@ pipeline {
         stage("Checkout Code") {
             steps {
                 checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/main']],
+                        $class           : 'GitSCM',
+                        branches         : [[name: '*/main']],
                         userRemoteConfigs: [[
-                                                    url: "https://github.com/devops5014/sample-webapp.git",
+                                                    url          : "https://github.com/devops5014/sample-webapp.git",
                                                     credentialsId: "github_token"
                                             ]]
                 ])
@@ -29,7 +29,7 @@ pipeline {
         }
         stage("Deploy To Artifactory") {
             steps {
-                configFileProvider([configFile(fileId: 'da703f06-3dd8-4497-a27c-532d5204f519' , variable: 'MAVEN_SETTINGS')]) {
+                configFileProvider([configFile(fileId: 'da703f06-3dd8-4497-a27c-532d5204f519', variable: 'MAVEN_SETTINGS')]) {
                     sh '''
                     mvn deploy -s $MAVEN_SETTINGS
                     '''
@@ -41,6 +41,15 @@ pipeline {
                 sh 'docker build -t sample-webapp .'
             }
         }
-
+        stage("Docker Push to ECR") {
+            steps {
+                sh '''
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 612031147002.dkr.ecr.us-east-1.amazonaws.com
+            docker tag sample-webapp:latest 612031147002.dkr.ecr.us-east-1.amazonaws.com/sample-webapp:latest
+            docker push 612031147002.dkr.ecr.us-east-1.amazonaws.com/sample-webapp:latest
+            '''
+            }
+        }
     }
+
 }
