@@ -41,11 +41,6 @@ pipeline {
                 sh 'docker build -t sample-webapp .'
             }
         }
-        stage("Docker Build") {
-            steps {
-                sh 'docker build -t sample-webapp .'
-            }
-        }
         stage("Docker Image Push") {
             steps {
                 withCredentials([[
