@@ -7,7 +7,7 @@ pipeline {
                         $class           : 'GitSCM',
                         branches         : [[name: '*/main']],
                         userRemoteConfigs: [[
-                                                    url          : "https://github.com/devops5014/sample-webapp.git",
+                                                    url          : "https://github.com/zeeshanmys98/sample-webapp.git",
                                                     credentialsId: "github_token"
                                             ]]
                 ])
