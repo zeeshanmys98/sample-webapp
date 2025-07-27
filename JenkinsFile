@@ -36,25 +36,5 @@ pipeline {
                 }
             }
         }
-        stage("Docker Build") {
-            steps {
-                sh 'docker build -t sample-webapp .'
-            }
         }
-        stage("Docker Image Push") {
-            steps {
-                withCredentials([[
-                                         $class       : 'AmazonWebServicesCredentialsBinding',
-                                         credentialsId: 'aws-ecr-creds'
-                                 ]]) {
-                    sh '''
-                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 612031147002.dkr.ecr.us-east-1.amazonaws.com
-                        docker tag sample-webapp:latest 612031147002.dkr.ecr.us-east-1.amazonaws.com/sample-webapp:latest
-                        docker push 612031147002.dkr.ecr.us-east-1.amazonaws.com/sample-webapp:latest
-                       '''
-
-                }
-            }
-        }
-    }
 }
