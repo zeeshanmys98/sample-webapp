@@ -41,6 +41,11 @@ pipeline {
                 sh 'docker build -t sample-webapp .'
             }
         }
+        stage("Docker Build") {
+            steps {
+                sh 'docker build -t sample-webapp .'
+            }
+        }
         stage("Docker Image Push") {
             steps {
                 withCredentials([[
@@ -49,8 +54,8 @@ pipeline {
                                  ]]) {
                     sh '''
                         aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 119330871027.dkr.ecr.eu-north-1.amazonaws.com
-                        docker tag momin1997:latest 119330871027.dkr.ecr.eu-north-1.amazonaws.com/momin1997:latest
-                        docker push 119330871027.dkr.ecr.eu-north-1.amazonaws.com/momin1997:latest
+                        docker tag mominecr:latest 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
+                        docker push 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
                        '''
 
                 }
