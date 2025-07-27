@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'worker-node' }
     stages {
         stage("Checkout Code") {
             steps {
@@ -7,7 +7,7 @@ pipeline {
                         $class           : 'GitSCM',
                         branches         : [[name: '*/main']],
                         userRemoteConfigs: [[
-                                                    url          : "https://github.com/zeeshanmys98/sample-webapp.git",
+                                                    url          : "https://github.com/devops5014/sample-webapp.git",
                                                     credentialsId: "github_token"
                                             ]]
                 ])
@@ -33,6 +33,26 @@ pipeline {
                     sh '''
                     mvn deploy -s $MAVEN_SETTINGS
                     '''
+                }
+            }
+        }
+        stage("Docker Build") {
+            steps {
+                sh 'docker build -t sample-webapp .'
+            }
+        }
+        stage("Docker Image Push") {
+            steps {
+                withCredentials([[
+                                         $class       : 'AmazonWebServicesCredentialsBinding',
+                                         credentialsId: 'aws-ecr-creds'
+                                 ]]) {
+                    sh '''
+                        aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 119330871027.dkr.ecr.eu-north-1.amazonaws.com
+                        docker tag mominecr:latest 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
+                        docker push 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
+                       '''
+
                 }
             }
         }
