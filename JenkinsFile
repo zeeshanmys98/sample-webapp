@@ -57,14 +57,5 @@ pipeline {
                 }
             }
         }
-     stage("Run Docker Container") {
-            steps {
-                sh '''
-                    docker stop sample-webapp || true
-                    docker rm sample-webapp || true
-                    docker run -it -d -p 8080:8080 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
-                '''
-            }
-        }
     }
 }
