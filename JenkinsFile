@@ -62,7 +62,7 @@ pipeline {
                 sh '''
                     docker stop sample-webapp || true
                     docker rm sample-webapp || true
-                    docker run -d --name sample-webapp -p 8080:8080 $IMAGE_NAME:latest
+                    docker run -it -d -p 9090:8090 119330871027.dkr.ecr.eu-north-1.amazonaws.com/mominecr:latest
                 '''
             }
         }
