@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'worker1' }
+    agent { label 'worker-node' }
     stages {
         stage("Checkout Code") {
             steps {
@@ -55,6 +55,15 @@ pipeline {
                        '''
 
                 }
+            }
+        }
+     stage("Run Docker Container") {
+            steps {
+                sh '''
+                    docker stop sample-webapp || true
+                    docker rm sample-webapp || true
+                    docker run -d --name sample-webapp -p 8080:8080 $IMAGE_NAME:latest
+                '''
             }
         }
     }
